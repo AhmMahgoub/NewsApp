@@ -26,33 +26,36 @@ public final class QueryUtils {
 
     private static List<News> extractEarthquakes(String newsJSON) {
 
-        // Create an empty ArrayList that we can start adding earthquakes to
         List<News> news = new ArrayList<>();
 
         if (TextUtils.isEmpty(newsJSON)) {
             return null;
         }
         try {
-
             JSONObject baseJsonResponse = new JSONObject(newsJSON);
             JSONObject response = baseJsonResponse.getJSONObject("response");
             JSONArray resultArray = response.getJSONArray("results");
-            for(int i = 0 ; i<= resultArray.length();i++){
+            for (int i = 0; i <= resultArray.length(); i++) {
                 JSONObject newsDetails = resultArray.getJSONObject(i);
                 String section = newsDetails.getString("sectionId");
                 String tilte = newsDetails.getString("webTitle");
                 String date = newsDetails.getString("webPublicationDate");
                 String url = newsDetails.getString("webUrl");
 
-                News Jsonnews = new News(section , tilte ,date,url);
-                news.add(Jsonnews) ;
+                JSONArray tagsArray = newsDetails.getJSONArray("tags");
+                JSONObject tagsDetails = tagsArray.getJSONObject(0);
+                String author = tagsDetails.getString("webTitle");
+
+                News Jsonnews = new News(section, tilte, date, url, author);
+                news.add(Jsonnews);
             }
 
-        } catch (JSONException e){
+        } catch (JSONException e) {
             Log.e("QueryUtils", "Problem parsing the news JSON results", e);
         }
         return news;
     }
+
     public static List<News> fetchEarthquakeData(String requestUrl) {
         URL url = createUrl(requestUrl);
 
@@ -111,6 +114,7 @@ public final class QueryUtils {
         }
         return jsonResponse;
     }
+
     private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
         if (inputStream != null) {

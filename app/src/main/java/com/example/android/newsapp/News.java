@@ -6,12 +6,15 @@ public class News {
     private String mTitle;
     private String mDateAndTime;
     private String mUrl;
+    private String mAuthor = NO_AUTHOR_PROVIDED;
+    private static final String NO_AUTHOR_PROVIDED = null;
 
-    News(String section , String title , String dateAndTime, String Url){
+    News(String section, String title, String dateAndTime, String Url, String author) {
         mSection = section;
         mTitle = title;
         mDateAndTime = dateAndTime;
         mUrl = Url;
+        mAuthor = author;
     }
 
     public String getmSection() {
@@ -29,5 +32,13 @@ public class News {
 
     public String getmUrl() {
         return mUrl;
+    }
+
+    public String getmAuthor() {
+        return mAuthor;
+    }
+
+    public boolean hasAuthor() {
+        return mAuthor != NO_AUTHOR_PROVIDED;
     }
 }

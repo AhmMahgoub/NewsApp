@@ -20,10 +20,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>>{
+public class NewsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>> {
 
     public static final String LOG_TAG = NewsActivity.class.getName();
-    private static final String SAMPLE_JSON_RESPONSE = "http://content.guardianapis.com/search?q=debates&api-key=test";
+    private static final String SAMPLE_JSON_RESPONSE = "http://content.guardianapis.com/search?order-by=newest&show-tags=contributor&page-size=15&q=politics&api-key=test";
+
     private TextView mEmptyStateTextView;
     private ProgressBar mLoadingSpinner;
     private NetworkInfo activeNetwork;
@@ -35,25 +36,24 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news_activity);
 
-        final ListView newsListView = (ListView)findViewById(R.id.list);
+        final ListView newsListView = (ListView) findViewById(R.id.list);
         mAdapter = new NewsAdapter(this, new ArrayList<News>());
         newsListView.setAdapter(mAdapter);
 
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         newsListView.setEmptyView(mEmptyStateTextView);
 
-        mLoadingSpinner =(ProgressBar) findViewById(R.id.loading_spinner);
+        mLoadingSpinner = (ProgressBar) findViewById(R.id.loading_spinner);
         newsListView.setEmptyView(mLoadingSpinner);
 
         ConnectivityManager cm =
-                (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         activeNetwork = cm.getActiveNetworkInfo();
 
         if (activeNetwork != null && activeNetwork.isConnected()) {
             LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(NEWS_LOADER_ID, null, this);
-        }
-        else{
+        } else {
             mEmptyStateTextView.setText(R.string.no_internet_connection);
             mLoadingSpinner.setVisibility(View.GONE);
         }
@@ -62,7 +62,7 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 News news = mAdapter.getItem(i);
                 Uri earthquakeUri = Uri.parse(news.getmUrl());
-                Intent webIntent = new Intent(Intent.ACTION_VIEW,earthquakeUri);
+                Intent webIntent = new Intent(Intent.ACTION_VIEW, earthquakeUri);
                 startActivity(webIntent);
             }
         });
@@ -79,7 +79,7 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         if (news != null && !news.isEmpty()) {
             mAdapter.addAll(news);
             mLoadingSpinner.setVisibility(View.GONE);
-            if(mAdapter.isEmpty()){
+            if (mAdapter.isEmpty()) {
                 mEmptyStateTextView.setText(R.string.no_news);
             }
         }
@@ -91,9 +91,9 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     private static class NewsLoader extends AsyncTaskLoader<List<News>> {
-        /** Tag for log messages */
         private static final String LOG_TAG = NewsLoader.class.getName();
         private String mUrl;
+
         public NewsLoader(Context context, String url) {
             super(context);
             mUrl = url;
@@ -102,15 +102,13 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
 
         @Override
         protected void onStartLoading() {
-
             forceLoad();
         }
 
         @Override
         public List<News> loadInBackground() {
-
             if (mUrl == null) {
-                return null ;
+                return null;
             }
             // TODO: Implement this method
             List<News> news = QueryUtils.fetchEarthquakeData(mUrl);

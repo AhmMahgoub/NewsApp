@@ -34,11 +34,19 @@ public class NewsAdapter extends ArrayAdapter<News> {
         titleText.setText(currentNews.getmTitle());
 
         String dateAndTime = currentNews.getmDateAndTime();
-        if(dateAndTime.contains("T")){
+        if (dateAndTime.contains("T")) {
             String parts[] = dateAndTime.split("T");
             String date = parts[0];
-            TextView dateText = (TextView)listItemView.findViewById(R.id.date);
+            TextView dateText = (TextView) listItemView.findViewById(R.id.date);
             dateText.setText(date);
+        }
+
+        TextView authorText = (TextView) listItemView.findViewById(R.id.author);
+        if (currentNews.hasAuthor()) {
+            authorText.setText(currentNews.getmAuthor());
+            authorText.setVisibility(View.VISIBLE);
+        } else {
+            authorText.setVisibility(View.GONE);
         }
         return listItemView;
     }
