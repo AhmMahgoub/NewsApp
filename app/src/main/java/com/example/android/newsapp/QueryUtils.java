@@ -24,7 +24,7 @@ public final class QueryUtils {
     private QueryUtils() {
     }
 
-    private static List<News> extractEarthquakes(String newsJSON) {
+    private static List<News> extractNews(String newsJSON) {
 
         List<News> news = new ArrayList<>();
 
@@ -56,7 +56,7 @@ public final class QueryUtils {
         return news;
     }
 
-    public static List<News> fetchEarthquakeData(String requestUrl) {
+    public static List<News> fetchNewsData(String requestUrl) {
         URL url = createUrl(requestUrl);
 
         String jsonResponse = null;
@@ -65,7 +65,7 @@ public final class QueryUtils {
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error closing input stream", e);
         }
-        List<News> NewFromJson = extractEarthquakes(jsonResponse);
+        List<News> NewFromJson = extractNews(jsonResponse);
 
         return NewFromJson;
     }
@@ -103,7 +103,7 @@ public final class QueryUtils {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the news JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();

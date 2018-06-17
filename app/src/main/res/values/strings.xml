@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">News App</string>
 
-    <!-- Text to display in the list when there are no earthquakes [CHAR LIMIT=NONE] -->
+    <!-- Text to display in the list when there are no news [CHAR LIMIT=NONE] -->
     <string name="no_news">You can always come later and check for all new stories.</string>
 
     <!-- Error message when there is no internet connectivity [CHAR LIMIT=NONE] -->

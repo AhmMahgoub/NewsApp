@@ -13,8 +13,8 @@ import java.util.ArrayList;
 
 public class NewsAdapter extends ArrayAdapter<News> {
 
-    public NewsAdapter(Activity context, ArrayList<News> earthquakes) {
-        super(context, 0, earthquakes);
+    public NewsAdapter(Activity context, ArrayList<News> news) {
+        super(context, 0, news);
     }
 
     @NonNull
@@ -27,21 +27,21 @@ public class NewsAdapter extends ArrayAdapter<News> {
         }
 
         News currentNews = getItem(position);
-        TextView sectionText = (TextView) listItemView.findViewById(R.id.section);
+        TextView sectionText = (TextView) listItemView.findViewById(R.id.section_text_view);
         sectionText.setText(currentNews.getmSection());
 
-        TextView titleText = (TextView) listItemView.findViewById(R.id.title);
+        TextView titleText = (TextView) listItemView.findViewById(R.id.title_text_view);
         titleText.setText(currentNews.getmTitle());
 
         String dateAndTime = currentNews.getmDateAndTime();
         if (dateAndTime.contains("T")) {
             String parts[] = dateAndTime.split("T");
             String date = parts[0];
-            TextView dateText = (TextView) listItemView.findViewById(R.id.date);
+            TextView dateText = (TextView) listItemView.findViewById(R.id.date_text_view);
             dateText.setText(date);
         }
 
-        TextView authorText = (TextView) listItemView.findViewById(R.id.author);
+        TextView authorText = (TextView) listItemView.findViewById(R.id.author_text_view);
         if (currentNews.hasAuthor()) {
             authorText.setText(currentNews.getmAuthor());
             authorText.setVisibility(View.VISIBLE);

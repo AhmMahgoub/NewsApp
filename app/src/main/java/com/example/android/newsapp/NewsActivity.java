@@ -61,8 +61,8 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 News news = mAdapter.getItem(i);
-                Uri earthquakeUri = Uri.parse(news.getmUrl());
-                Intent webIntent = new Intent(Intent.ACTION_VIEW, earthquakeUri);
+                Uri newsUri = Uri.parse(news.getmUrl());
+                Intent webIntent = new Intent(Intent.ACTION_VIEW, newsUri);
                 startActivity(webIntent);
             }
         });
@@ -76,12 +76,13 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<List<News>> loader, List<News> news) {
         mAdapter.clear();
-        if (news != null && !news.isEmpty()) {
+        if(news == null){
+            mEmptyStateTextView.setText(R.string.no_news);
+            mLoadingSpinner.setVisibility(View.GONE);
+        }
+        else if (news != null && !news.isEmpty()) {
             mAdapter.addAll(news);
             mLoadingSpinner.setVisibility(View.GONE);
-            if (mAdapter.isEmpty()) {
-                mEmptyStateTextView.setText(R.string.no_news);
-            }
         }
     }
 
@@ -90,29 +91,4 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         mAdapter.clear();
     }
 
-    private static class NewsLoader extends AsyncTaskLoader<List<News>> {
-        private static final String LOG_TAG = NewsLoader.class.getName();
-        private String mUrl;
-
-        public NewsLoader(Context context, String url) {
-            super(context);
-            mUrl = url;
-            // TODO: Finish implementing this constructor
-        }
-
-        @Override
-        protected void onStartLoading() {
-            forceLoad();
-        }
-
-        @Override
-        public List<News> loadInBackground() {
-            if (mUrl == null) {
-                return null;
-            }
-            // TODO: Implement this method
-            List<News> news = QueryUtils.fetchEarthquakeData(mUrl);
-            return news;
-        }
-    }
 }
