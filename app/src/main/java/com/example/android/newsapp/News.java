@@ -29,7 +29,6 @@ public class News {
         return mDateAndTime;
     }
 
-
     public String getmUrl() {
         return mUrl;
     }
