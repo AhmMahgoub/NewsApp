@@ -25,7 +25,6 @@ import java.util.List;
 public class NewsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>> {
 
     public static final String LOG_TAG = NewsActivity.class.getName();
-    //private static final String SAMPLE_JSON_RESPONSE = "http://content.guardianapis.com/search?order-by=newest&show-tags=contributor&page-size=15&q=politics&api-key=75d943ec-c2c7-4e5b-a30f-da6a00936f37";
     private static final String SAMPLE_JSON_RESPONSE = "https://content.guardianapis.com/search";
 
     private TextView mEmptyStateTextView;
@@ -94,7 +93,7 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         uriBuilder.appendQueryParameter("page-size", pageSize);
         uriBuilder.appendQueryParameter("order-by", orderBy);
         uriBuilder.appendQueryParameter("q", "politics");
-        uriBuilder.appendQueryParameter("api-key", "75d943ec-c2c7-4e5b-a30f-da6a00936f37");
+        uriBuilder.appendQueryParameter("api-key",getString(R.string.api_key));
 
         return new NewsLoader(this, uriBuilder.toString());
     }

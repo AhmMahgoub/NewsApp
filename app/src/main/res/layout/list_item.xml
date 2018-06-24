@@ -23,7 +23,7 @@
         android:id="@+id/title_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15sp"
+        android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_weight="4"
         android:textStyle="bold"
@@ -44,5 +44,4 @@
         android:layout_weight="2"
         android:textStyle="bold"
         tools:text="Mar 6, 2010" />
-
 </LinearLayout>
